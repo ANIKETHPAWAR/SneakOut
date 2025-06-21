@@ -1,0 +1,18 @@
+const mongoose = require('mongoose');
+const MongoDbURI= process.env.URI ;
+mongoose.connect(MongoDbURI).then(console.log('MongoDb connected!'));
+const db = mongoose.connection
+
+
+db.on('connected',()=>{
+    console.log('connected');  
+ });
+ db.on('disconnected',()=>{
+    console.log('disconnected');
+
+ });
+ db.on('error',(err)=>{
+    console.log('error:',err)
+ });
+
+ module.export = db;
