@@ -1,36 +1,42 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+
 const userSchema = new mongoose.Schema({
-   firstName:{
-     type : String,
-     required:true,
-     trim: true,
-     maxLength: 10
-   } ,
-   lastName:{
-    type : String,
-    required:true,
+  firstName: {
+    type: String,
+    required: true,
     trim: true,
     maxLength: 10
-  } ,
-  username:{
-    type:String,
-    required :true,
-      unique: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+    trim: true,
+    maxLength: 10
+  },
+  username: {
+    type: String,
+    required: true,
+    unique: true,
     trim: true,
     lowercase: true,
     minLength: 3,
     maxLength: 30
-}
-, email:{
-type:String,
-},
- password: {
+  },
+  email: {
     type: String,
     required: true,
-       minLength: 6
- },
-})
+    unique: true,
+    trim: true,
+    lowercase: true,
+    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please enter a valid email']
+  },
+  password: {
+    type: String,
+    required: true,
+    minLength: 6
+  }
+});
 
 //bcrypt 
 userSchema.pre('save',async function(next){

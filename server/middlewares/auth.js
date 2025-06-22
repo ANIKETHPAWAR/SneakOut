@@ -7,7 +7,7 @@ const Auth=(req,res,next)=>{
     }
     const token = authorization.split(' ')[1];
     if(!token){
-        return res.status(401).son({error:"unauthorized"})
+        return res.status(401).json({error:"unauthorized"})
     }
     try{
         const decoded= jwt.verify(token,process.env.Jwt_Secret);
@@ -24,6 +24,6 @@ const generateToken =(userData)=>{
     return jwt.sign(userData,process.env.Jwt_Secret)
 }
 
-module.export={
+module.exports={
     Auth,generateToken
 }
