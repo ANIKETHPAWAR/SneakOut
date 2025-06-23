@@ -40,22 +40,25 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-        <div className="absolute top-40 left-40 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+        <div className="absolute top-40 left-80 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-blob animation-delay-2000"></div>
       </div>
 
       {/* Main container */}
       <div className="relative z-10 w-full max-w-md mx-4">
         {/* Logo/Brand Section */}
-        <div className="text-center mb-8 fade-in">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-purple-500 to-blue-600 rounded-3xl mb-6 shadow-2xl transform hover:scale-105 transition-all duration-300">
+        <div className="text-base mb-2 flex fade-in">
+          <div className="inline-flex  items-center justify-center w-20 h-20 bg-gradient-to-br from-purple-500 to-blue-600 rounded-3xl mb-2 shadow-2xl transform hover:scale-105 transition-all duration-300">
             <MapPin className="w-10 h-10 text-white" />
+            
           </div>
+          <div className='items-center justify-center ml-4'>
           <h1 className="text-4xl font-bold bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent mb-2">
             SneakOut
           </h1>
-          <p className="text-purple-200/80 text-lg font-medium">Discover hidden gems around you</p>
+          
+          <p className="text-purple-200/80 text-lg font-medium">Discover hidden gems around you</p></div>
         </div>
 
         {/* Login Form Card */}
