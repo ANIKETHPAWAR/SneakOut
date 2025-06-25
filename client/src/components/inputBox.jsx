@@ -3,6 +3,6 @@ export function InputBox({label,placeholder,Onchange}){
         <div>
             {label}
         </div>
-        <input onChange={Onchange} placeholder={placeholder} className="w-full px-2 py-1 border rounded border-slate-200"/>
+        <input onChange={Onchange} placeholder={placeholder} autoComplete="off" className="w-full px-2 py-1 border rounded border-slate-200"/>
     </div>
 }

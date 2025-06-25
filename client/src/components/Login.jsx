@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Eye, EyeOff, MapPin, User, Lock, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import axios from "axios"
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -24,11 +25,10 @@ const Login = () => {
     
     try {
       // TODO: Add login API call here
-      console.log('Login attempt:', formData);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+     const res = await axios.post('http://localhost:3000/SneakOut/user/login', formData);
+      localStorage.setItem("token",res.data.token);
+      setSuccess('Registration successful! Redirecting to dashboard');
+      setTimeout(() => navigate('/dashboard'), 1500);
     } catch (error) {
       console.error('Login error:', error);
     } finally {
@@ -68,7 +68,7 @@ const Login = () => {
             <p className="text-purple-200/70">Sign in to continue your journey</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form autoComplete="off" onSubmit={handleSubmit} className="space-y-6">
             {/* Username Field */}
             <div className="relative group">
               <div className={`absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-all duration-300 ${
@@ -77,6 +77,7 @@ const Login = () => {
                 <User className="h-5 w-5" />
               </div>
               <input
+                autoComplete="off"
                 type="text"
                 name="username"
                 value={formData.username}
@@ -98,6 +99,7 @@ const Login = () => {
                 <Lock className="h-5 w-5" />
               </div>
               <input
+                autoComplete="off"
                 type={showPassword ? 'text' : 'password'}
                 name="password"
                 value={formData.password}

@@ -10,7 +10,7 @@ const mainroute = require('./routes/mainRoute');
 app.get('/',(req,res)=>{
     res.send('Welcome')
 })
-app.use('/api/v1',mainroute)
+app.use('/SneakOut/',mainroute)
 app.listen(3000 ,()=>{
     console.log('running on 3k')
 })

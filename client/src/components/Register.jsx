@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Eye, EyeOff, MapPin, User, Lock, Sparkles,Mail } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Heading } from './heading';
+
 
 const Register = () => {
   // State for form fields
@@ -40,9 +40,10 @@ const Register = () => {
     setIsLoading(true);
     try {
       // Adjust the URL if your backend is on a different port
-      const res = await axios.post('/api/v1/user/register', formData);
-      setSuccess('Registration successful! Redirecting to login...');
-      setTimeout(() => navigate('/login'), 1500);
+      const res = await axios.post('http://localhost:3000/SneakOut/user/register', formData);
+      localStorage.setItem("token",res.data.token);
+      setSuccess('Registration successful! Redirecting to dashboard');
+      setTimeout(() => navigate('/dashboard'), 1500);
     } catch (err) {
       setErrors({ api: err.response?.data?.error || 'Registration failed' });
     } finally {
@@ -65,13 +66,13 @@ const Register = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-blob"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
         <div className="absolute top-40 left-80 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-blob animation-delay-2000"></div>
       </div>
 
       {/* Main container */}
-      <div className="relative z-10 w-full max-w-md mx-4">
+      <div className="relative z-10 w-full max-w-md mx-4 my-8">
         {/* Logo/Brand Section */}
         <div className="text-base mb-2 flex fade-in">
           <div className="inline-flex  items-center justify-center w-20 h-20 bg-gradient-to-br from-purple-500 to-blue-600 rounded-3xl mb-2 shadow-2xl transform hover:scale-105 transition-all duration-300">
@@ -96,7 +97,7 @@ const Register = () => {
           {errors.api && <p className="text-red-400 text-xs text-center">{errors.api}</p>}
           {success && <p className="text-green-400 text-xs text-center">{success}</p>}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form autoComplete="off" onSubmit={handleSubmit} className="space-y-6">
          {/*  firstName */}
          <div className="relative group">
               <div className={`absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-all duration-300 ${
@@ -105,6 +106,7 @@ const Register = () => {
                 <User className="h-5 w-5" />
               </div>
               <input
+                autoComplete="off"
                 type="text"
                 name="firstName"
                 value={formData.firstName}
@@ -124,6 +126,7 @@ const Register = () => {
                 <User className="h-5 w-5" />
               </div>
               <input
+                autoComplete="off"
                 type="text"
                 name="lastName"
                 value={formData.lastName}
@@ -144,6 +147,7 @@ const Register = () => {
                 <User className="h-5 w-5" />
               </div>
               <input
+                autoComplete="off"
                 type="text"
                 name="username"
                 value={formData.username}
@@ -163,6 +167,7 @@ const Register = () => {
                 <Mail className="h-5 w-5 text-gray-400" />
               </div>
               <input
+                autoComplete="off"
                 type="email"
                 name="email"
                 value={formData.email}
@@ -179,6 +184,7 @@ const Register = () => {
                 <Lock className="h-5 w-5 text-gray-400" />
               </div>
               <input
+                autoComplete="off"
                 type={showPassword ? 'text' : 'password'}
                 name="password"
                 value={formData.password}
