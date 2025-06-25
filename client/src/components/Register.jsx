@@ -7,10 +7,11 @@ import { Heading } from './heading';
 const Register = () => {
   // State for form fields
   const [formData, setFormData] = useState({
+   firstName:"",
+   lastName:"",
     username: '',
     email: '',
-    password: '',
-    confirmPassword: ''
+    password: ''
   });
   // focus field state
   const [focusedField, setFocusedField] = useState('');
@@ -56,7 +57,7 @@ const Register = () => {
     else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(formData.email)) newErrors.email = 'Invalid email';
     if (!formData.password) newErrors.password = 'Password is required';
     else if (formData.password.length < 6) newErrors.password = 'Password must be at least 6 characters';
-    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
+    
     return newErrors;
   };
 
@@ -96,6 +97,45 @@ const Register = () => {
           {success && <p className="text-green-400 text-xs text-center">{success}</p>}
 
           <form onSubmit={handleSubmit} className="space-y-6">
+         {/*  firstName */}
+         <div className="relative group">
+              <div className={`absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-all duration-300 ${
+                focusedField === 'firstName' ? 'text-purple-400' : 'text-gray-400'
+              }`}>
+                <User className="h-5 w-5" />
+              </div>
+              <input
+                type="text"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                onFocus={() => setFocusedField('firstName')}
+                onBlur={() => setFocusedField('')}
+                placeholder="Enter your firstName"
+                className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-2xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 outline-none text-white placeholder-purple-200/50 backdrop-blur-sm"
+                required
+              />
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
+            </div>
+            <div className="relative group">
+              <div className={`absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-all duration-300 ${
+                focusedField === 'lastName' ? 'text-purple-400' : 'text-gray-400'
+              }`}>
+                <User className="h-5 w-5" />
+              </div>
+              <input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                onFocus={() => setFocusedField('username')}
+                onBlur={() => setFocusedField('')}
+                placeholder="Enter your lastName"
+                className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-2xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 outline-none text-white placeholder-purple-200/50 backdrop-blur-sm"
+                required
+              />
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
+            </div>
             {/* Username Field */}
             <div className="relative group">
               <div className={`absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-all duration-300 ${
@@ -156,29 +196,7 @@ const Register = () => {
               </button>
             </div>
 
-            {/* Confirm Password Field */}
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Lock className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
-                type={showConfirm ? 'text' : 'password'}
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                placeholder="Confirm your password"
-                className="w-full pl-12 pr-12 py-4 bg-white/10 border border-white/20 rounded-2xl focus:ring-2 focus:ring-purple-500 text-white placeholder-purple-200/50"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirm(!showConfirm)}
-                className="absolute inset-y-0 right-0 pr-4 flex items-center text-purple-200/70 hover:text-purple-300"
-              >
-                {showConfirm ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-              </button>
-            </div>
-
+        
             {/* Forgot Password
             <div className="text-right">
               <a href="#" className="text-sm text-purple-300 hover:text-purple-200 transition-colors duration-200 font-medium">
