@@ -3,8 +3,10 @@ import { Eye, EyeOff, MapPin, User, Lock, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from "axios"
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 const Login = () => {
   ///states 
+  const { login } = useAuth();
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     username: '',
@@ -29,9 +31,7 @@ const Login = () => {
     try {
       setSuccess('')
      const res = await axios.post('http://localhost:3000/SneakOut/user/login', formData);
-      localStorage.setItem("token",res.data.token);
-      setSuccess('Registration successful! Redirecting to dashboard');
-      setTimeout(() => navigate('/dashboard'), 1000);
+      login(res.data.token);
     } catch (error) {
       setErrors({error})
       console.error('Login error:', error);

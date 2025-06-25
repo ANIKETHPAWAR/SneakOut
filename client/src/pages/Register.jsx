@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { Eye, EyeOff, MapPin, User, Lock, Sparkles,Mail } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
 
 
 const Register = () => {
+  const { login } = useAuth();
   // State for form fields
   const [formData, setFormData] = useState({
    firstName:"",
@@ -39,11 +41,8 @@ const Register = () => {
     }
     setIsLoading(true);
     try {
-     
       const res = await axios.post('http://localhost:3000/SneakOut/user/register', formData);
-      localStorage.setItem("token",res.data.token);
-      setSuccess('Registration successful! Redirecting to dashboard');
-      setTimeout(() => navigate('/dashboard'), 1500);
+      login(res.data.token);
     } catch (err) {
       setErrors({ api: err.response?.data?.error || 'Registration failed' });
     } finally {
@@ -87,7 +86,7 @@ const Register = () => {
           <p className="text-purple-200/80 text-lg font-medium">Discover hidden gems around you</p></div>
         </div>
 
-        {/* Login Form Card */}
+        {/* Register Form Card */}
         <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-8 fade-in animation-delay-200">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-white mb-2">Welcome Back</h2>
