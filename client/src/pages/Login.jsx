@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { Eye, EyeOff, MapPin, User, Lock, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from "axios"
-
+import { useNavigate } from 'react-router-dom';
 const Login = () => {
+  ///states 
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     username: '',
     password: ''
@@ -11,7 +13,8 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [focusedField, setFocusedField] = useState('');
-
+  const [success, setSuccess] = useState('');
+  const [errors, setErrors] = useState({});
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -24,12 +27,13 @@ const Login = () => {
     setIsLoading(true);
     
     try {
-      // TODO: Add login API call here
+      setSuccess('')
      const res = await axios.post('http://localhost:3000/SneakOut/user/login', formData);
       localStorage.setItem("token",res.data.token);
       setSuccess('Registration successful! Redirecting to dashboard');
-      setTimeout(() => navigate('/dashboard'), 1500);
+      setTimeout(() => navigate('/dashboard'), 1000);
     } catch (error) {
+      setErrors({error})
       console.error('Login error:', error);
     } finally {
       setIsLoading(false);
@@ -67,7 +71,8 @@ const Login = () => {
             <h2 className="text-3xl font-bold text-white mb-2">Welcome Back</h2>
             <p className="text-purple-200/70">Sign in to continue your journey</p>
           </div>
-
+          {errors.api && <p className="text-red-400 text-xs text-center">{errors.api}</p>}
+          {success && <p className="text-green-400 text-xs text-center">{success}</p>}
           <form autoComplete="off" onSubmit={handleSubmit} className="space-y-6">
             {/* Username Field */}
             <div className="relative group">

@@ -39,7 +39,7 @@ const Register = () => {
     }
     setIsLoading(true);
     try {
-      // Adjust the URL if your backend is on a different port
+     
       const res = await axios.post('http://localhost:3000/SneakOut/user/register', formData);
       localStorage.setItem("token",res.data.token);
       setSuccess('Registration successful! Redirecting to dashboard');
