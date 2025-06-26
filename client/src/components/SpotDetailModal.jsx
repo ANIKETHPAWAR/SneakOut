@@ -1,0 +1,142 @@
+import React from 'react';
+import { X, MapPin, Star, Clock, User, Tag } from 'lucide-react';
+
+const SpotDetailModal = ({ spot, isOpen, onClose }) => {
+  if (!isOpen || !spot) return null;
+
+  const getCategoryColor = (category) => {
+    const colors = {
+      food: 'bg-orange-100 text-orange-800',
+      adventure: 'bg-green-100 text-green-800',
+      photo: 'bg-blue-100 text-blue-800',
+      hidden: 'bg-purple-100 text-purple-800',
+      cultural: 'bg-red-100 text-red-800',
+      nature: 'bg-emerald-100 text-emerald-800',
+      urban: 'bg-gray-100 text-gray-800',
+      other: 'bg-slate-100 text-slate-800'
+    };
+    return colors[category] || colors.other;
+  };
+
+  const getDifficultyColor = (difficulty) => {
+    const colors = {
+      easy: 'text-green-600',
+      medium: 'text-yellow-600',
+      hard: 'text-red-600'
+    };
+    return colors[difficulty] || colors.easy;
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        {/* Header */}
+        <div className="relative">
+          <div className="h-64 bg-gradient-to-br from-purple-400 to-blue-500 relative">
+            {spot.images && spot.images.length > 0 ? (
+              <img 
+                src={spot.images[0].url} 
+                alt={spot.name}
+                className="w-full h-full object-cover rounded-t-2xl"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <MapPin className="w-16 h-16 text-white opacity-50" />
+              </div>
+            )}
+            
+            {/* Category Badge */}
+            <div className="absolute top-4 left-4">
+              <span className={`px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(spot.category)}`}>
+                {spot.category}
+              </span>
+            </div>
+            
+            {/* Rating */}
+            {spot.rating && spot.rating.average > 0 && (
+              <div className="absolute top-4 right-4 bg-white bg-opacity-90 px-3 py-1 rounded-full flex items-center gap-1">
+                <Star className="w-4 h-4 text-yellow-500 fill-current" />
+                <span className="text-sm font-medium">{spot.rating.average.toFixed(1)}</span>
+                <span className="text-xs text-gray-500">({spot.rating.count})</span>
+              </div>
+            )}
+            
+            {/* Close Button */}
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-16 p-2 rounded-full bg-white bg-opacity-90 hover:bg-white transition-colors"
+            >
+              <X className="w-5 h-5 text-gray-700" />
+            </button>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="p-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">{spot.name}</h2>
+          
+          <p className="text-gray-600 mb-6 leading-relaxed">{spot.description}</p>
+
+          {/* Location Details */}
+          <div className="bg-gray-50 rounded-xl p-4 mb-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+              <MapPin className="w-5 h-5 text-purple-600" />
+              Location Details
+            </h3>
+            <div className="space-y-2">
+              <p className="text-gray-700"><span className="font-medium">Address:</span> {spot.location.address}</p>
+              <p className="text-gray-700"><span className="font-medium">City:</span> {spot.location.city}</p>
+              <p className="text-gray-700"><span className="font-medium">Country:</span> {spot.location.country}</p>
+              <p className="text-gray-700"><span className="font-medium">Coordinates:</span> {spot.location.coordinates[1].toFixed(4)}, {spot.location.coordinates[0].toFixed(4)}</p>
+            </div>
+          </div>
+
+          {/* Tags */}
+          {spot.tags && spot.tags.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                <Tag className="w-5 h-5 text-purple-600" />
+                Tags
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {spot.tags.map((tag, index) => (
+                  <span 
+                    key={index}
+                    className="px-3 py-1 bg-purple-100 text-purple-700 text-sm rounded-full"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Additional Info */}
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="flex items-center gap-2">
+              <span className="text-gray-600">Difficulty:</span>
+              <span className={`font-medium ${getDifficultyColor(spot.difficulty)}`}>
+                {spot.difficulty}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-gray-500" />
+              <span className="text-gray-600">Best Time:</span>
+              <span className="font-medium text-gray-900">{spot.bestTime}</span>
+            </div>
+          </div>
+
+          {/* Creator Info */}
+          {spot.createdBy && (
+            <div className="flex items-center gap-2 text-sm text-gray-600 pt-4 border-t border-gray-200">
+              <User className="w-4 h-4" />
+              <span>Added by {spot.createdBy.firstName} {spot.createdBy.lastName}</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SpotDetailModal; 
