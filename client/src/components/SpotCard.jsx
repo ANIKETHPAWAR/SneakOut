@@ -1,34 +1,19 @@
 import React from 'react';
 import { MapPin, Star, Clock, User } from 'lucide-react';
+import { getCategoryColor, getDifficultyColor } from '../utils/colors';
+import { motion } from 'framer-motion';
 
 const SpotCard = ({ spot, onClick }) => {
-  const getCategoryColor = (category) => {
-    const colors = {
-      food: 'bg-orange-100 text-orange-800',
-      adventure: 'bg-green-100 text-green-800',
-      photo: 'bg-blue-100 text-blue-800',
-      hidden: 'bg-purple-100 text-purple-800',
-      cultural: 'bg-red-100 text-red-800',
-      nature: 'bg-emerald-100 text-emerald-800',
-      urban: 'bg-gray-100 text-gray-800',
-      other: 'bg-slate-100 text-slate-800'
-    };
-    return colors[category] || colors.other;
-  };
-
-  const getDifficultyColor = (difficulty) => {
-    const colors = {
-      easy: 'text-green-600',
-      medium: 'text-yellow-600',
-      hard: 'text-red-600'
-    };
-    return colors[difficulty] || colors.easy;
+  const handleClick = () => {
+    if (onClick) onClick(spot);
   };
 
   return (
-    <div 
-      className="bg-white rounded-xl shadow-lg hover:shadow-xl overflow-hidden cursor-pointer transform hover:scale-105 transition-all duration-300"
-      onClick={() => onClick && onClick(spot)}
+    <motion.div
+      whileHover={{ scale: 1.04, boxShadow: '0 8px 32px rgba(80,0,200,0.10)' }}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+      className="bg-white/60 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 hover:border-purple-300 overflow-hidden cursor-pointer transform transition-all duration-300"
+      onClick={handleClick}
     >
       {/* Image Section */}
       <div className="h-48 bg-gradient-to-br from-purple-400 to-blue-500 relative">
@@ -108,7 +93,7 @@ const SpotCard = ({ spot, onClick }) => {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

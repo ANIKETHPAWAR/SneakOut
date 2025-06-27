@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { API_ENDPOINTS } from "../utils/constants";
 
 const AuthContext = createContext();
 
@@ -15,16 +16,21 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
         return;
       }
+
       try {
-        const res = await axios.get("http://localhost:3000/SneakOut/user/me", {
+        const response = await axios.get(`${API_ENDPOINTS.base}${API_ENDPOINTS.user}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setUser(res.data);
-      } catch {
+        setUser(response.data);
+      } catch (error) {
+        console.error('Authentication failed:', error);
         setUser(null);
+        localStorage.removeItem("token");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
+
     checkAuth();
   }, []);
 

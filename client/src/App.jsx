@@ -4,20 +4,21 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import { PublicRoute } from './components/PublicRoute';
 import { ProtectedRoute } from './components/ProtectedRoute';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext';
+
 function App() {
   return (
     <AuthProvider>
-    <Router>
-      <div className="App">
-        <Routes>
-          <Route path="*" element={<PublicRoute><Login /></PublicRoute>}/>
-          <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-          <Route path='/Register' element={<PublicRoute><Register /></PublicRoute>}/>
-          <Route path='/dashboard' element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
-        </Routes>
-      </div>
-    </Router>
+      <Router>
+        <div className="App">
+          <Routes>
+            <Route path="*" element={<PublicRoute><Login /></PublicRoute>} />
+            <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+            <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          </Routes>
+        </div>
+      </Router>
     </AuthProvider>
   );
 }
