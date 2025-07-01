@@ -5,7 +5,18 @@ import SpotDetailModal from './SpotDetailModal';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { API_ENDPOINTS } from '../utils/constants';
 
-const VISIBLE_COUNT = 4;
+// Responsive visible count based on screen size
+const getVisibleCount = () => {
+  if (typeof window === 'undefined') return 4;
+  if (window.innerWidth < 640) return 1; // mobile
+  if (window.innerWidth < 1024) return 2; // tablet
+  if (window.innerWidth < 1280) return 3; // small desktop
+  return 4; // large desktop
+};
+
+const SkeletonCard = () => (
+  <div className="w-full h-[340px] bg-gradient-to-br from-gray-200 to-gray-300 rounded-2xl animate-pulse shadow-lg" />
+);
 
 const FeaturedSpots = () => {
   const [spots, setSpots] = useState([]);
@@ -13,6 +24,17 @@ const FeaturedSpots = () => {
   const [selectedSpot, setSelectedSpot] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(4);
+
+  useEffect(() => {
+    const updateVisibleCount = () => {
+      setVisibleCount(getVisibleCount());
+    };
+
+    updateVisibleCount();
+    window.addEventListener('resize', updateVisibleCount);
+    return () => window.removeEventListener('resize', updateVisibleCount);
+  }, []);
 
   useEffect(() => {
     const fetchSpots = async () => {
@@ -30,10 +52,10 @@ const FeaturedSpots = () => {
   }, []);
 
   const getVisibleSpots = () => {
-    if (spots.length <= VISIBLE_COUNT) return spots;
+    if (spots.length <= visibleCount) return spots;
     
     const visible = [];
-    for (let i = 0; i < VISIBLE_COUNT; i++) {
+    for (let i = 0; i < visibleCount; i++) {
       const index = (currentIndex + i) % spots.length;
       visible.push(spots[index]);
     }
@@ -60,58 +82,102 @@ const FeaturedSpots = () => {
 
   // Auto-advance carousel
   useEffect(() => {
-    if (spots.length <= VISIBLE_COUNT) return;
+    if (spots.length <= visibleCount) return;
     
     const interval = setInterval(nextSlide, 4000);
     return () => clearInterval(interval);
-  }, [spots.length]);
+  }, [spots.length, visibleCount]);
 
   if (loading || spots.length === 0) return null;
 
   return (
-    <div className="mb-10">
-      {/* Header */}
-      <div className="flex items-center gap-2 mb-4">
-        <Star className="w-6 h-6 text-yellow-400" />
-        <h2 className="text-2xl font-bold text-gray-900">Featured Spots</h2>
+    <div className="mb-16">
+      {/* Enhanced Header */}
+      <div className="flex items-center justify-center gap-3 mb-8">
+        <div className="flex items-center gap-2">
+          <Star className="w-6 h-6 sm:w-7 sm:h-7 text-yellow-400 drop-shadow-sm" />
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Featured Spots</h2>
+        </div>
       </div>
 
-      {/* Carousel Container */}
-      <div className="relative bg-white rounded-2xl shadow-lg px-2 py-6 mb-6">
-        {/* Navigation Buttons */}
-        {spots.length > VISIBLE_COUNT && (
+      {/* Enhanced Carousel Container */}
+      <div className="relative bg-gradient-to-br from-white via-gray-50 to-white rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl border border-gray-100 overflow-hidden">
+        {/* Decorative Background Elements */}
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-50/30 via-transparent to-blue-50/30" />
+        <div className="absolute top-0 left-0 w-24 h-24 sm:w-32 sm:h-32 bg-purple-200/20 rounded-full blur-2xl sm:blur-3xl -translate-x-12 sm:-translate-x-16 -translate-y-12 sm:-translate-y-16" />
+        <div className="absolute bottom-0 right-0 w-28 h-28 sm:w-40 sm:h-40 bg-blue-200/20 rounded-full blur-2xl sm:blur-3xl translate-x-14 sm:translate-x-20 translate-y-14 sm:translate-y-20" />
+        
+        {/* Enhanced Navigation Buttons */}
+        {spots.length > visibleCount && !loading && (
           <>
             <button
               onClick={prevSlide}
-              className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 bg-white bg-opacity-90 hover:bg-purple-100 rounded-full p-2 shadow-lg transition-all duration-200 border border-gray-200"
+              className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm hover:bg-white rounded-full p-2 sm:p-3 shadow-lg sm:shadow-xl transition-all duration-300 border border-gray-200/50 hover:shadow-xl sm:hover:shadow-2xl hover:scale-110 group"
               aria-label="Previous spots"
             >
-              <ChevronLeft className="w-6 h-6 text-gray-700" />
+              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700 group-hover:text-purple-600 transition-colors" />
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 bg-white bg-opacity-90 hover:bg-purple-100 rounded-full p-2 shadow-lg transition-all duration-200 border border-gray-200"
+              className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm hover:bg-white rounded-full p-2 sm:p-3 shadow-lg sm:shadow-xl transition-all duration-300 border border-gray-200/50 hover:shadow-xl sm:hover:shadow-2xl hover:scale-110 group"
               aria-label="Next spots"
             >
-              <ChevronRight className="w-6 h-6 text-gray-700" />
+              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700 group-hover:text-purple-600 transition-colors" />
             </button>
           </>
         )}
 
-        {/* Spots Grid */}
-        <div className="overflow-hidden rounded-xl">
-          <div
-            key={currentIndex}
-            className="flex gap-6 transition-transform duration-1000 ease-in-out"
-            style={{ minWidth: '1200px' }}
-          >
-            {getVisibleSpots().map((spot) => (
-              <div key={spot._id} className="w-[280px] flex-shrink-0">
-                <SpotCard spot={spot} onClick={handleSpotClick} />
-              </div>
-            ))}
+        {/* Enhanced Spots Container */}
+        <div className="relative px-4 sm:px-8 py-8 sm:py-12">
+          {/* Responsive Grid Container */}
+          <div className="overflow-hidden rounded-xl sm:rounded-2xl">
+            <div
+              key={currentIndex}
+              className="flex gap-4 sm:gap-6 lg:gap-8 transition-all duration-1000 ease-out"
+              style={{
+                transform: 'translateX(0)',
+                minWidth: 'fit-content',
+                width: '100%'
+              }}
+            >
+              {loading
+                ? Array.from({ length: visibleCount }).map((_, i) => (
+                    <div key={i} className="w-[260px] sm:w-[280px] md:w-[300px] lg:w-[320px] flex-shrink-0">
+                      <SkeletonCard />
+                    </div>
+                  ))
+                : getVisibleSpots().map((spot, index) => (
+                    <div 
+                      key={spot._id} 
+                      className="w-[260px] sm:w-[280px] md:w-[300px] lg:w-[320px] flex-shrink-0 transform transition-all duration-500 hover:scale-105"
+                      style={{
+                        animationDelay: `${index * 100}ms`
+                      }}
+                    >
+                      <SpotCard spot={spot} onClick={handleSpotClick} />
+                    </div>
+                  ))}
+            </div>
           </div>
         </div>
+
+        {/* Progress Indicators */}
+        {spots.length > visibleCount && (
+          <div className="absolute bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2 flex gap-1.5 sm:gap-2 z-10">
+            {Array.from({ length: Math.ceil(spots.length / visibleCount) }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index * visibleCount)}
+                className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all duration-300 ${
+                  Math.floor(currentIndex / visibleCount) === index
+                    ? 'bg-purple-600 w-4 sm:w-6'
+                    : 'bg-gray-300 hover:bg-gray-400'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Spot Detail Modal */}
