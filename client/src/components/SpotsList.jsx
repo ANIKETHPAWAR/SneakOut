@@ -4,6 +4,7 @@ import SpotCard from './SpotCard';
 import SpotDetailModal from './SpotDetailModal';
 import { Loader2, AlertCircle, Search, Filter, MapPin } from 'lucide-react';
 import Button from './Button';
+import { API_ENDPOINTS } from '../utils/constants';
 
 const SpotsList = () => {
   const [spots, setSpots] = useState([]);
@@ -36,7 +37,7 @@ const SpotsList = () => {
       if (searchTerm) params.append('search', searchTerm);
       if (selectedCategory) params.append('category', selectedCategory);
       
-      const response = await axios.get(`http://localhost:3000/SneakOut/spots?${params}`);
+      const response = await axios.get(`${API_ENDPOINTS.base}${API_ENDPOINTS.spots}?${params}`);
       setSpots(response.data.spots || response.data);
     } catch (err) {
       console.error('Error fetching spots:', err);

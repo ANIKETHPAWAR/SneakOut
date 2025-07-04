@@ -23,8 +23,9 @@ export const APP_STATS = {
 // API endpoints
 export const API_BASE_URL = "https://sneakout-ssom.onrender.com";
 export const API_ENDPOINTS = {
-  base: API_BASE_URL,
-  featured: '/spots/featured/list',
-  spots: '/spots',
-  user: '/user/me'
+  base: "https://sneakout-ssom.onrender.com",
+  user: "/SneakOut/user/me",
+  spots: "/SneakOut/spots",
+  featured: "/SneakOut/spots/featured/list",
+  // Add other endpoints as needed
 }; 

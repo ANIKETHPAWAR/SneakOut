@@ -6,6 +6,7 @@ import WelcomeSection from '../components/WelcomeSection';
 import CategoryGrid from '../components/CategoryGrid';
 import FeaturedSpots from '../components/FeaturedSpots';
 import SpotCard from '../components/SpotCard';
+import SpotDetailModal from '../components/SpotDetailModal';
 import { API_ENDPOINTS } from '../utils/constants';
 
 const Dashboard = () => {
@@ -13,6 +14,8 @@ const Dashboard = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categorySpots, setCategorySpots] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedSpot, setSelectedSpot] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (!selectedCategory) {
@@ -38,6 +41,16 @@ const Dashboard = () => {
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
+  };
+
+  const handleSpotClick = (spot) => {
+    setSelectedSpot(spot);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedSpot(null);
   };
 
   return (
@@ -67,10 +80,15 @@ const Dashboard = () => {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {categorySpots.map((spot) => (
-                  <SpotCard key={spot._id} spot={spot} />
+                  <SpotCard key={spot._id} spot={spot} onClick={handleSpotClick} />
                 ))}
               </div>
             )}
+            <SpotDetailModal 
+              spot={selectedSpot} 
+              isOpen={isModalOpen} 
+              onClose={closeModal} 
+            />
           </div>
         )}
 

@@ -3,6 +3,7 @@ import { Eye, EyeOff, MapPin, User, Lock, Sparkles,Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../utils/constants';
 
 
 const Register = () => {
@@ -39,7 +40,7 @@ const Register = () => {
     }
     setIsLoading(true);
     try {
-      const res = await axios.post('http://localhost:3000/SneakOut/user/register', formData);
+      const res = await axios.post(`${API_BASE_URL}/SneakOut/user/register`, formData);
       login(res.data.token);
     } catch (err) {
       setErrors({ api: err.response?.data?.error || 'Registration failed' });

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from "axios"
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
+import { API_BASE_URL } from '../utils/constants';
 
 const Login = () => {
   ///states 
@@ -30,7 +31,7 @@ const Login = () => {
     
     try {
       setSuccess('')
-     const res = await axios.post('http://localhost:3000/SneakOut/user/login', formData);
+     const res = await axios.post(`${API_BASE_URL}/SneakOut/user/login`, formData);
       login(res.data.token);
     } catch (error) {
       setErrors({error})

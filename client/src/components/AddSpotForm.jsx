@@ -6,6 +6,7 @@ import SpotBasicInfo from './AddSpot/SpotBasicInfo';
 import SpotLocation from './AddSpot/SpotLocation';
 import SpotDetails from './AddSpot/SpotDetails';
 import SpotImages from './AddSpot/SpotImages';
+import { API_ENDPOINTS } from '../utils/constants';
 
 const AddSpotForm = () => {
   const navigate = useNavigate();
@@ -50,14 +51,23 @@ const AddSpotForm = () => {
     setIsSubmitting(true);
     setError('');
 
+    // Swap coordinates to [lng, lat] for backend
+    const formDataToSend = {
+      ...formData,
+      location: {
+        ...formData.location,
+        coordinates: [formData.location.coordinates[1], formData.location.coordinates[0]]
+      }
+    };
+
     try {
-      const response = await fetch('http://localhost:3000/SneakOut/spots', {
+      const response = await fetch(`${API_ENDPOINTS.base}${API_ENDPOINTS.spots}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formDataToSend)
       });
 
       if (!response.ok) {

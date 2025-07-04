@@ -1,6 +1,9 @@
 import React from 'react';
 import { X, MapPin, Star, Clock, User, Tag } from 'lucide-react';
 import { getCategoryColor, getDifficultyColor } from '../utils/colors';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import '../leaflet-fix';
 
 const SpotDetailModal = ({ spot, isOpen, onClose }) => {
   if (!isOpen || !spot) return null;
@@ -64,6 +67,26 @@ const SpotDetailModal = ({ spot, isOpen, onClose }) => {
                 <span className="font-medium">Coordinates:</span> {spot.location.coordinates[1].toFixed(4)}, {spot.location.coordinates[0].toFixed(4)}
               </p>
             </div>
+            {/* Spot Location Map */}
+            {spot.location.coordinates && spot.location.coordinates[0] !== 0 && spot.location.coordinates[1] !== 0 && (
+              <div style={{ width: '100%', height: 200, borderRadius: 12, overflow: 'hidden', marginTop: 12, boxShadow: '0 2px 8px #0001' }}>
+                <MapContainer
+                  center={[spot.location.coordinates[1], spot.location.coordinates[0]]}
+                  zoom={13}
+                  style={{ width: '100%', height: '100%' }}
+                  dragging={false}
+                  scrollWheelZoom={false}
+                  doubleClickZoom={false}
+                  touchZoom={false}
+                  keyboard={false}
+                  zoomControl={false}
+                  attributionControl={false}
+                >
+                  <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                  <Marker position={[spot.location.coordinates[1], spot.location.coordinates[0]]} />
+                </MapContainer>
+              </div>
+            )}
           </div>
           {/* Tags */}
           {spot.tags && spot.tags.length > 0 && (
