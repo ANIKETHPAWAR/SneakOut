@@ -1,0 +1,10 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sneakout-gradient" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#2563EB"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#sneakout-gradient)"/>
+  <path d="M32 12C25.373 12 20 17.373 20 24C20 32.5 32 52 32 52C32 52 44 32.5 44 24C44 17.373 38.627 12 32 12ZM32 28C29.791 28 28 26.209 28 24C28 21.791 29.791 20 32 20C34.209 20 36 21.791 36 24C36 26.209 34.209 28 32 28Z" fill="white"/>
+</svg>
