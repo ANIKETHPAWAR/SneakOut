@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import axios from "axios"
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Button from '../components/Button';
+
 const Login = () => {
   ///states 
   const { login } = useAuth();

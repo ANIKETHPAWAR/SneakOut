@@ -3,6 +3,7 @@ import { MapPin, Star, Clock, User } from 'lucide-react';
 import { getCategoryColor, getDifficultyColor } from '../utils/colors';
 import { motion } from 'framer-motion';
 
+// Consider adding PropTypes or converting to TypeScript for type safety in production.
 const SpotCard = ({ spot, onClick }) => {
   const handleClick = () => {
     if (onClick) onClick(spot);
@@ -14,6 +15,8 @@ const SpotCard = ({ spot, onClick }) => {
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       className="bg-white/60 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 hover:border-purple-300 overflow-hidden cursor-pointer transform transition-all duration-300"
       onClick={handleClick}
+      tabIndex={0}
+      role="button"
     >
       {/* Image Section */}
       <div className="h-48 bg-gradient-to-br from-purple-400 to-blue-500 relative">

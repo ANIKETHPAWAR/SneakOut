@@ -26,10 +26,10 @@ const Navbar = () => {
         <Link to="#explore" className="text-gray-700 hover:text-indigo-600 transition-colors">Explore</Link>
         <Link to="#categories" className="text-gray-700 hover:text-indigo-600 transition-colors">Categories</Link>
         <Link to="#community" className="text-gray-700 hover:text-indigo-600 transition-colors">Community</Link>
-        <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2">
+        <Link to="/add-spot" className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2">
           <Plus className="w-4 h-4" />
           Add a Spot
-        </button>
+        </Link>
         <button 
           onClick={handleLogout}
           className="text-gray-700 hover:text-red-600 transition-colors flex items-center gap-2"
@@ -55,10 +55,10 @@ const Navbar = () => {
             <Link to="#explore" className="block text-gray-700 hover:text-indigo-600">Explore</Link>
             <Link to="#categories" className="block text-gray-700 hover:text-indigo-600">Categories</Link>
             <Link to="#community" className="block text-gray-700 hover:text-indigo-600">Community</Link>
-            <button className="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
+            <Link to="/add-spot" className="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
               <Plus className="w-4 h-4" />
               Add a Spot
-            </button>
+            </Link>
             <button 
               onClick={handleLogout}
               className="w-full text-gray-700 hover:text-red-600 transition-colors flex items-center justify-center gap-2"

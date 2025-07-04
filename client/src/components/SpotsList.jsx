@@ -3,6 +3,7 @@ import axios from 'axios';
 import SpotCard from './SpotCard';
 import SpotDetailModal from './SpotDetailModal';
 import { Loader2, AlertCircle, Search, Filter, MapPin } from 'lucide-react';
+import Button from './Button';
 
 const SpotsList = () => {
   const [spots, setSpots] = useState([]);
@@ -83,12 +84,7 @@ const SpotsList = () => {
         <div className="text-center">
           <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
           <p className="text-gray-600 mb-4">{error}</p>
-          <button 
-            onClick={fetchSpots}
-            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-          >
-            Try Again
-          </button>
+          <Button onClick={fetchSpots}>Try Again</Button>
         </div>
       </div>
     );
@@ -109,12 +105,7 @@ const SpotsList = () => {
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             />
           </div>
-          <button
-            type="submit"
-            className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-          >
-            Search
-          </button>
+          <Button type="submit">Search</Button>
         </form>
 
         {/* Category Filters */}
@@ -122,8 +113,9 @@ const SpotsList = () => {
           <Filter className="w-4 h-4 text-gray-500" />
           <span className="text-sm text-gray-600 mr-2">Categories:</span>
           {categories.map((category) => (
-            <button
+            <Button
               key={category}
+              type="button"
               onClick={() => handleCategoryChange(category)}
               className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
                 selectedCategory === category
@@ -132,7 +124,7 @@ const SpotsList = () => {
               }`}
             >
               {category}
-            </button>
+            </Button>
           ))}
         </div>
       </div>

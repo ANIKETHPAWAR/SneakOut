@@ -7,11 +7,10 @@ import { API_ENDPOINTS } from '../utils/constants';
 
 // Responsive visible count based on screen size
 const getVisibleCount = () => {
-  if (typeof window === 'undefined') return 4;
+  if (typeof window === 'undefined') return 3;
   if (window.innerWidth < 640) return 1; // mobile
   if (window.innerWidth < 1024) return 2; // tablet
-  if (window.innerWidth < 1280) return 3; // small desktop
-  return 4; // large desktop
+  return 3; // desktop
 };
 
 const SkeletonCard = () => (
@@ -24,7 +23,7 @@ const FeaturedSpots = () => {
   const [selectedSpot, setSelectedSpot] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [visibleCount, setVisibleCount] = useState(4);
+  const [visibleCount, setVisibleCount] = useState(3);
 
   useEffect(() => {
     const updateVisibleCount = () => {
@@ -80,11 +79,19 @@ const FeaturedSpots = () => {
     setSelectedSpot(null);
   };
 
-  // Auto-advance carousel
+  // --- Carousel sliding logic ---
+  // Card width in px (should match the card's width in Tailwind)
+  const CARD_WIDTH = 320 + 32; // 320px card + 32px gap
+
+  // Auto-advance carousel always, on all screen sizes
   useEffect(() => {
-    if (spots.length <= visibleCount) return;
-    
-    const interval = setInterval(nextSlide, 4000);
+    const interval = setInterval(() => {
+      setCurrentIndex(prev => {
+        const next = prev + 1;
+        // Loop back to start if at end
+        return next > spots.length - visibleCount ? 0 : next;
+      });
+    }, 2000);
     return () => clearInterval(interval);
   }, [spots.length, visibleCount]);
 
@@ -128,36 +135,23 @@ const FeaturedSpots = () => {
         )}
 
         {/* Enhanced Spots Container */}
-        <div className="relative px-4 sm:px-8 py-8 sm:py-12">
-          {/* Responsive Grid Container */}
-          <div className="overflow-hidden rounded-xl sm:rounded-2xl">
-            <div
-              key={currentIndex}
-              className="flex gap-4 sm:gap-6 lg:gap-8 transition-all duration-1000 ease-out"
-              style={{
-                transform: 'translateX(0)',
-                minWidth: 'fit-content',
-                width: '100%'
-              }}
-            >
-              {loading
-                ? Array.from({ length: visibleCount }).map((_, i) => (
-                    <div key={i} className="w-[260px] sm:w-[280px] md:w-[300px] lg:w-[320px] flex-shrink-0">
-                      <SkeletonCard />
-                    </div>
-                  ))
-                : getVisibleSpots().map((spot, index) => (
-                    <div 
-                      key={spot._id} 
-                      className="w-[260px] sm:w-[280px] md:w-[300px] lg:w-[320px] flex-shrink-0 transform transition-all duration-500 hover:scale-105"
-                      style={{
-                        animationDelay: `${index * 100}ms`
-                      }}
-                    >
-                      <SpotCard spot={spot} onClick={handleSpotClick} />
-                    </div>
-                  ))}
-            </div>
+        <div className="relative px-4 sm:px-8 py-8 sm:py-12 overflow-hidden">
+          {/* Sliding Carousel Row */}
+          <div
+            className="flex gap-8 transition-transform duration-700 ease-in-out"
+            style={{
+              width: `${spots.length * CARD_WIDTH}px`,
+              transform: `translateX(-${currentIndex * CARD_WIDTH}px)`
+            }}
+          >
+            {spots.map((spot, index) => (
+              <div
+                key={spot._id}
+                className="w-[320px] flex-shrink-0"
+              >
+                <SpotCard spot={spot} onClick={handleSpotClick} />
+              </div>
+            ))}
           </div>
         </div>
 
