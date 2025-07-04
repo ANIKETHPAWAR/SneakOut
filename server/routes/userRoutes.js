@@ -9,18 +9,14 @@ router.post('/register',async(req,res)=>{
         const data =req.body;
         const newUser = new User(data);
         const savedUser = await newUser.save();
-        console.log('User saved!');
-
-  const payLoad ={
-    id:savedUser._id
-  }
-  const token = generateToken(payLoad);
-  console.log("Your token is :",token);
-  res.status(200).json({savedUser,token : token})
-    }catch(err){
-        console.log(err);
-        res.status(500).json({error: 'internal error'})
+        const payLoad ={
+            id:savedUser._id
         }
+        const token = generateToken(payLoad);
+        res.status(200).json({savedUser,token : token})
+    }catch(err){
+        res.status(500).json({error: 'internal error'})
+    }
 })
 
 router.post('/login',async(req,res)=>{
@@ -31,25 +27,17 @@ try{
     const user = await User.findOne({username:username});
     
     if(!user || !(await user.comparePassword(password))){
-        console.log('user not found');
         return res.status(401).json({error: 'user didnt match'})
     }
-    console.log('Authenticating user:', username);
-    
     
     const payLoad = {
       id :user._id,
-      
-    
     }
     
     const token = generateToken(payLoad);
     res.json({token})
-    
-     console.log('Token sent for user:', username);
     }
     catch(err){
-    console.error(err);
     res.status(500).json({error: 'internal server error'})
     }
     

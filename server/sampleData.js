@@ -335,29 +335,20 @@ const sampleUsers = [
 async function seedDatabase() {
   try {
     await mongoose.connect(process.env.URI);
-    console.log('Connected to MongoDB');
     // Force delete all spots
     const delResult = await Spot.deleteMany({});
-    console.log(`Deleted ${delResult.deletedCount} old spots.`);
     await User.deleteMany({ username: 'system' });
-    console.log('Cleared existing sample user');
     const createdUsers = await User.insertMany(sampleUsers);
-    console.log(`Created ${createdUsers.length} system user`);
     const spotsWithUsers = sampleSpots.map((spot) => ({
       ...spot,
       createdBy: createdUsers[0]._id
     }));
     const createdSpots = await Spot.insertMany(spotsWithUsers);
-    console.log(`Created ${createdSpots.length} sample spots`);
     // Log final count
     const finalCount = await Spot.countDocuments();
-    console.log(`Final spot count in DB: ${finalCount}`);
-    console.log('Sample data seeded successfully!');
   } catch (error) {
-    console.error('Error seeding database:', error);
   } finally {
     await mongoose.disconnect();
-    console.log('Disconnected from MongoDB');
   }
 }
 

@@ -12,5 +12,4 @@ app.get('/',(req,res)=>{
 })
 app.use('/SneakOut/',mainroute)
 app.listen(3000 ,()=>{
-    console.log('running on 3k')
 })

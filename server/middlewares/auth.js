@@ -15,7 +15,6 @@ const Auth=(req,res,next)=>{
         next();
     }
     catch(err){
-        console.log(`auth error: ${err}`);
         res.status(401).json({error:'invalid token'})
     }
 }

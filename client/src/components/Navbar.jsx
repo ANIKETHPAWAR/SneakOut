@@ -1,14 +1,53 @@
 import React, { useState } from 'react';
 import { MapPin, Menu, X, LogOut, Plus } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { logout } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
+  };
+
+  const scrollToFeaturedSpots = () => {
+    const start = Date.now();
+    const tryScroll = () => {
+      const el = document.getElementById('featured-spots-carousel');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      } else if (Date.now() - start < 1000) {
+        setTimeout(tryScroll, 50);
+      }
+    };
+    tryScroll();
+  };
+
+  const handleFeaturedSpotsClick = (e) => {
+    e.preventDefault();
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(scrollToFeaturedSpots, 100);
+    } else {
+      scrollToFeaturedSpots();
+    }
+  };
+
+  const handleCategoriesClick = (e) => {
+    e.preventDefault();
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        const el = document.getElementById('categories');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      const el = document.getElementById('categories');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -23,9 +62,8 @@ const Navbar = () => {
       
       {/* Desktop Navigation */}
       <div className="hidden md:flex items-center space-x-8">
-        <Link to="#explore" className="text-gray-700 hover:text-indigo-600 transition-colors">Explore</Link>
-        <Link to="#categories" className="text-gray-700 hover:text-indigo-600 transition-colors">Categories</Link>
-        <Link to="#community" className="text-gray-700 hover:text-indigo-600 transition-colors">Community</Link>
+        <Link to="/" onClick={handleCategoriesClick} className="text-gray-700 hover:text-indigo-600 transition-colors">Categories</Link>
+        <Link to="/" onClick={handleFeaturedSpotsClick} className="text-gray-700 hover:text-indigo-600 transition-colors">Featured Spots</Link>
         <Link to="/add-spot" className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2">
           <Plus className="w-4 h-4" />
           Add a Spot
@@ -52,9 +90,8 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden absolute left-0 top-full right-0 bg-white border-t border-gray-200">
           <div className="px-4 py-3 space-y-3">
-            <Link to="#explore" className="block text-gray-700 hover:text-indigo-600">Explore</Link>
-            <Link to="#categories" className="block text-gray-700 hover:text-indigo-600">Categories</Link>
-            <Link to="#community" className="block text-gray-700 hover:text-indigo-600">Community</Link>
+            <Link to="/" onClick={handleCategoriesClick} className="block text-gray-700 hover:text-indigo-600">Categories</Link>
+            <Link to="/" onClick={handleFeaturedSpotsClick} className="block text-gray-700 hover:text-indigo-600">Featured Spots</Link>
             <Link to="/add-spot" className="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
               <Plus className="w-4 h-4" />
               Add a Spot
