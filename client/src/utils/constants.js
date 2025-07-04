@@ -21,8 +21,9 @@ export const APP_STATS = {
 };
 
 // API endpoints
+export const API_BASE_URL = "https://sneakout-ssom.onrender.com";
 export const API_ENDPOINTS = {
-  base: 'http://localhost:3000/SneakOut',
+  base: API_BASE_URL,
   featured: '/spots/featured/list',
   spots: '/spots',
   user: '/user/me'
