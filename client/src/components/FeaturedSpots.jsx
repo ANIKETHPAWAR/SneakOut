@@ -50,17 +50,6 @@ const FeaturedSpots = () => {
     fetchSpots();
   }, []);
 
-  const getVisibleSpots = () => {
-    if (spots.length <= visibleCount) return spots;
-    
-    const visible = [];
-    for (let i = 0; i < visibleCount; i++) {
-      const index = (currentIndex + i) % spots.length;
-      visible.push(spots[index]);
-    }
-    return visible;
-  };
-
   const nextSlide = () => {
     setCurrentIndex(prev => (prev + 1) % spots.length);
   };
@@ -144,7 +133,7 @@ const FeaturedSpots = () => {
               transform: `translateX(-${currentIndex * CARD_WIDTH}px)`
             }}
           >
-            {spots.map((spot, index) => (
+            {spots.map((spot) => (
               <div
                 key={spot._id}
                 className="w-[320px] flex-shrink-0"

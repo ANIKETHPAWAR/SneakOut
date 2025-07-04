@@ -2,14 +2,12 @@ import { useState } from 'react';
 import { Eye, EyeOff, MapPin, User, Lock, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from "axios"
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
 
 const Login = () => {
   ///states 
   const { login } = useAuth();
-  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     username: '',
     password: ''

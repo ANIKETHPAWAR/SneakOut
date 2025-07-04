@@ -1,7 +1,6 @@
 import React from 'react';
 import { MapPin, Star, Clock, User } from 'lucide-react';
 import { getCategoryColor, getDifficultyColor } from '../utils/colors';
-import { motion } from 'framer-motion';
 
 // Consider adding PropTypes or converting to TypeScript for type safety in production.
 const SpotCard = ({ spot, onClick }) => {
@@ -10,9 +9,7 @@ const SpotCard = ({ spot, onClick }) => {
   };
 
   return (
-    <motion.div
-      whileHover={{ scale: 1.04, boxShadow: '0 8px 32px rgba(80,0,200,0.10)' }}
-      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+    <div
       className="bg-white/60 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 hover:border-purple-300 overflow-hidden cursor-pointer transform transition-all duration-300"
       onClick={handleClick}
       tabIndex={0}
@@ -96,7 +93,7 @@ const SpotCard = ({ spot, onClick }) => {
           )}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { FaInfoCircle, FaMapMarkerAlt, FaListAlt, FaImages } from 'react-icons/fa';
+import Button from './Button';
 import SpotBasicInfo from './AddSpot/SpotBasicInfo';
 import SpotLocation from './AddSpot/SpotLocation';
 import SpotDetails from './AddSpot/SpotDetails';
 import SpotImages from './AddSpot/SpotImages';
-import Button from './Button';
-import { FaInfoCircle, FaMapMarkerAlt, FaListAlt, FaImages } from 'react-icons/fa';
 
 const AddSpotForm = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -67,7 +65,6 @@ const AddSpotForm = () => {
         throw new Error(errorData.error || 'Failed to create spot');
       }
 
-      const newSpot = await response.json();
       navigate('/dashboard');
     } catch (err) {
       setError(err.message);

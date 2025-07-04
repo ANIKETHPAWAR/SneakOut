@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Eye, EyeOff, MapPin, User, Lock, Sparkles,Mail } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 
@@ -19,12 +19,10 @@ const Register = () => {
   const [focusedField, setFocusedField] = useState('');
   // State for password visibility
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
   // State for errors and loading
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState('');
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
