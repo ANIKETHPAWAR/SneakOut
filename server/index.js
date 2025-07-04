@@ -11,6 +11,7 @@ app.get('/',(req,res)=>{
     res.send('Welcome')
 })
 app.use('/SneakOut/',mainroute)
-app.listen(3000 ,()=>{
-    console.log('running on 3k')
-})
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`running on ${PORT}`);
+});
