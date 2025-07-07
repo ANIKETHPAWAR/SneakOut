@@ -4,7 +4,7 @@ import { MapPin } from 'lucide-react';
 
 const CategoryGrid = ({ selectedCategory, onCategorySelect }) => {
   return (
-    <div className="max-w-5xl mx-auto mb-12">
+    <div className="max-w-[64rem] mx-auto mb-12">
       <h2 className="text-3xl font-bold text-gray-900 mb-2 text-center">Explore by Category</h2>
       <p className="text-gray-600 text-center mb-6">
         Whether you're seeking adventure, perfect shots, amazing food, or sports activities, we've got you covered.
