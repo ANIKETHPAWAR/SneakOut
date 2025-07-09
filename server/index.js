@@ -4,9 +4,16 @@ const express =require('express');
 const app =express();
 
 const db = require('./db')
+const allowedOrigins = ['https://sneak-out.vercel.app', 'http://localhost:5173'];
 app.use(cors({
-  origin: 'https://sneak-out.vercel.app',
-  credentials: true // if you use cookies/sessions
+  origin: function(origin, callback){
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  credentials: true,
 }));
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
