@@ -126,12 +126,7 @@ const Login = () => {
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
             </div>
 
-            {/* Forgot Password */}
-            <div className="text-right">
-              <a href="#" className="text-sm text-purple-300 hover:text-purple-200 transition-colors duration-200 font-medium">
-                Forgot password?
-              </a>
-            </div>
+            
 
             {/* Login Button */}
             <button
