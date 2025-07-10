@@ -4,7 +4,11 @@ const express =require('express');
 const app =express();
 
 const db = require('./db')
-const allowedOrigins = ['https://sneak-out.vercel.app', 'http://localhost:5173'];
+const allowedOrigins = [
+  'https://sneak-out.vercel.app',
+  'http://localhost:5173',
+  'https://www.sneakout.me'
+];
 app.use(cors({
   origin: function(origin, callback){
     if (!origin || allowedOrigins.includes(origin)) {
