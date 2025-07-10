@@ -15,6 +15,9 @@ app.use(cors({
   },
   credentials: true,
 }));
+
+// Handle preflight requests for all routes
+app.options('*', cors());
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 const mainroute = require('./routes/mainRoute');
