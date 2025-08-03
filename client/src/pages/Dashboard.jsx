@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import { apiService } from '../utils/apiService';
 import Navbar from '../components/Navbar';
 import WelcomeSection from '../components/WelcomeSection';
 import CategoryGrid from '../components/CategoryGrid';
 import FeaturedSpots from '../components/FeaturedSpots';
 import SpotCard from '../components/SpotCard';
 import SpotDetailModal from '../components/SpotDetailModal';
-import { API_ENDPOINTS } from '../utils/constants';
+import { DashboardSkeleton } from '../components/LoadingSkeleton';
 
 const Dashboard = () => {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categorySpots, setCategorySpots] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -26,8 +26,8 @@ const Dashboard = () => {
     const fetchCategorySpots = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`${API_ENDPOINTS.base}${API_ENDPOINTS.spots}?category=${selectedCategory.toLowerCase()}`);
-        setCategorySpots(response.data.spots || []);
+        const response = await apiService.getSpots({ category: selectedCategory.toLowerCase() });
+        setCategorySpots(response.spots || []);
       } catch (error) {
         console.error('Failed to fetch category spots:', error);
         setCategorySpots([]);
@@ -52,6 +52,11 @@ const Dashboard = () => {
     setIsModalOpen(false);
     setSelectedSpot(null);
   };
+
+  // Show loading skeleton while auth is loading
+  if (authLoading) {
+    return <DashboardSkeleton />;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { apiService } from '../utils/apiService';
 import SpotCard from './SpotCard';
 import SpotDetailModal from './SpotDetailModal';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
-import { API_ENDPOINTS } from '../utils/constants';
+import { FeaturedSpotsSkeleton } from './LoadingSkeleton';
 
 // Responsive visible count based on screen size
 const getVisibleCount = () => {
@@ -38,8 +38,8 @@ const FeaturedSpots = () => {
   useEffect(() => {
     const fetchSpots = async () => {
       try {
-        const response = await axios.get(`${API_ENDPOINTS.base}${API_ENDPOINTS.featured}`);
-        setSpots(response.data);
+        const spotsData = await apiService.getFeaturedSpots();
+        setSpots(spotsData);
       } catch (error) {
         console.error('Failed to load featured spots:', error);
       } finally {
@@ -84,7 +84,8 @@ const FeaturedSpots = () => {
     return () => clearInterval(interval);
   }, [spots.length, visibleCount]);
 
-  if (loading || spots.length === 0) return null;
+  if (loading) return <FeaturedSpotsSkeleton />;
+  if (spots.length === 0) return null;
 
   return (
     <div className="mb-16">

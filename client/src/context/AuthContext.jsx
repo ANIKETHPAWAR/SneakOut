@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
-import { API_ENDPOINTS } from "../utils/constants";
+import { apiService } from "../utils/apiService";
 
 const AuthContext = createContext();
 
@@ -18,10 +17,8 @@ export const AuthProvider = ({ children }) => {
       }
 
       try {
-        const response = await axios.get(`${API_ENDPOINTS.base}${API_ENDPOINTS.user}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setUser(response.data);
+        const userData = await apiService.getCurrentUser();
+        setUser(userData);
       } catch (error) {
         console.error('Authentication failed:', error);
         setUser(null);
@@ -34,16 +31,25 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-  const login = (token) => {
+  const login = async (token) => {
     localStorage.setItem("token", token);
     setLoading(true);
-    window.location.reload(); // reload to re-trigger auth check
+    
+    try {
+      const userData = await apiService.getCurrentUser();
+      setUser(userData);
+    } catch (error) {
+      console.error('Login failed:', error);
+      localStorage.removeItem("token");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
-    window.location.reload();
+    apiService.clearCache();
   };
 
   return (

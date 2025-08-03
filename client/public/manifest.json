@@ -1,0 +1,25 @@
+{
+  "short_name": "SneakOut",
+  "name": "SneakOut - Discover Hidden Gems",
+  "description": "Discover amazing hidden spots and locations around you",
+  "icons": [
+    {
+      "src": "sneakout-favicon.png",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "sneakout-logo.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#8b5cf6",
+  "background_color": "#1e293b",
+  "orientation": "portrait-primary",
+  "categories": ["travel", "lifestyle", "social"],
+  "lang": "en",
+  "dir": "ltr"
+} 

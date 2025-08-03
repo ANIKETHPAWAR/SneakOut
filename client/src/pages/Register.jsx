@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Eye, EyeOff, MapPin, User, Lock, Sparkles,Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
-import { API_BASE_URL } from '../utils/constants';
+import { apiService } from '../utils/apiService';
 
 
 const Register = () => {
@@ -40,8 +39,8 @@ const Register = () => {
     }
     setIsLoading(true);
     try {
-      const res = await axios.post(`${API_BASE_URL}/SneakOut/user/register`, formData);
-      login(res.data.token);
+      const response = await apiService.register(formData);
+      await login(response.token);
     } catch (err) {
       setErrors({ api: err.response?.data?.error || 'Registration failed' });
     } finally {

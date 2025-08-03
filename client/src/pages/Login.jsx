@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { Eye, EyeOff, MapPin, User, Lock, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import axios from "axios"
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
-import { API_BASE_URL } from '../utils/constants';
+import { apiService } from '../utils/apiService';
 
 const Login = () => {
   ///states 
@@ -30,11 +29,12 @@ const Login = () => {
     setIsLoading(true);
     
     try {
-      setSuccess('')
-     const res = await axios.post(`${API_BASE_URL}/SneakOut/user/login`, formData);
-      login(res.data.token);
+      setSuccess('');
+      setErrors({});
+      const response = await apiService.login(formData);
+      await login(response.token);
     } catch (error) {
-      setErrors({error})
+      setErrors({ api: error.response?.data?.message || 'Login failed. Please try again.' });
       console.error('Login error:', error);
     } finally {
       setIsLoading(false);

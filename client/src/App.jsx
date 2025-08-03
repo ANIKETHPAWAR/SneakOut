@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -6,8 +7,14 @@ import AddSpotForm from './components/AddSpotForm';
 import { PublicRoute } from './components/PublicRoute';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
+import { apiService } from './utils/apiService';
 
 function App() {
+  useEffect(() => {
+    // Preload critical data in background
+    apiService.preloadData();
+  }, []);
+
   return (
     <AuthProvider>
       <Router>
