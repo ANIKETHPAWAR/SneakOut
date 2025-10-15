@@ -51,7 +51,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex items-center fixed top-0 left-0 right-0 z-50 justify-between w-full px-8 py-4 bg-white shadow-sm">
+    <nav className="flex items-center fixed top-0 left-0 right-0 z-50 justify-between w-full px-8 py-4 bg-white/90 backdrop-blur-md shadow-lg border-b border-white/40">
       {/* Logo */}
       <div className="flex items-center gap-2">
         <div className="w-10 h-10 flex items-center justify-center bg-gradient-to-br from-purple-500 to-blue-600 rounded-2xl">
@@ -88,7 +88,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden absolute left-0 top-full right-0 bg-white border-t border-gray-200">
+        <div className="md:hidden absolute left-0 top-full right-0 bg-white/95 backdrop-blur-md border-t border-white/40 shadow-lg">
           <div className="px-4 py-3 space-y-3">
             <Link to="/" onClick={handleCategoriesClick} className="block text-gray-700 hover:text-indigo-600">Categories</Link>
             <Link to="/" onClick={handleFeaturedSpotsClick} className="block text-gray-700 hover:text-indigo-600">Featured Spots</Link>

@@ -98,7 +98,7 @@ const FeaturedSpots = () => {
       </div>
 
       {/* Enhanced Carousel Container */}
-      <div id="featured-spots-carousel" className="relative bg-gradient-to-br from-white via-gray-50 to-white rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl border border-gray-100 overflow-hidden">
+      <div id="featured-spots-carousel" className="relative bg-gradient-to-br from-white/90 via-blue-50/80 to-indigo-100/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl border border-white/40 overflow-hidden">
         {/* Decorative Background Elements */}
         <div className="absolute inset-0 bg-gradient-to-r from-purple-50/30 via-transparent to-blue-50/30" />
         <div className="absolute top-0 left-0 w-24 h-24 sm:w-32 sm:h-32 bg-purple-200/20 rounded-full blur-2xl sm:blur-3xl -translate-x-12 sm:-translate-x-16 -translate-y-12 sm:-translate-y-16" />

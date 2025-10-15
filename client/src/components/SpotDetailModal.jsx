@@ -10,7 +10,7 @@ const SpotDetailModal = ({ spot, isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-      <div className="bg-white/70 backdrop-blur-xl rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-white/40">
+      <div className="bg-gradient-to-br from-white/90 via-blue-50/80 to-indigo-100/90 backdrop-blur-xl rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-white/40">
         {/* Header */}
         <div className="relative">
           <div className="h-64 bg-gradient-to-br from-purple-400 to-blue-500 relative rounded-t-2xl">
@@ -54,7 +54,7 @@ const SpotDetailModal = ({ spot, isOpen, onClose }) => {
           <h2 className="text-2xl font-bold text-gray-900 mb-2">{spot.name}</h2>
           <p className="text-gray-600 mb-6 leading-relaxed">{spot.description}</p>
           {/* Location Details */}
-          <div className="bg-gray-50/70 backdrop-blur rounded-xl p-4 mb-6">
+          <div className="bg-gradient-to-br from-blue-50/80 via-indigo-50/60 to-purple-50/80 backdrop-blur rounded-xl p-4 mb-6 border border-white/40">
             <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
               <MapPin className="w-5 h-5 text-purple-600" />
               Location Details

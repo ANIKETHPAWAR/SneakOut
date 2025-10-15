@@ -1,22 +1,29 @@
-const CACHE_NAME = 'sneakout-v1';
-const STATIC_CACHE = 'sneakout-static-v1';
-const API_CACHE = 'sneakout-api-v1';
+const CACHE_NAME = 'sneakout-v2';
+const STATIC_CACHE = 'sneakout-static-v2';
+const API_CACHE = 'sneakout-api-v2';
 
-// Files to cache immediately
+// Only cache essential files that definitely exist
 const STATIC_FILES = [
   '/',
   '/index.html',
-  '/static/js/bundle.js',
-  '/static/css/main.css',
-  '/manifest.json',
-  '/favicon.ico',
 ];
 
-// Install event - cache static files
+// Install event - cache static files with error handling
 self.addEventListener('install', (event) => {
+  console.log('Service Worker installing...');
   event.waitUntil(
     caches.open(STATIC_CACHE).then((cache) => {
-      return cache.addAll(STATIC_FILES);
+      console.log('Caching static files...');
+      // Only cache the most essential files
+      return cache.addAll(STATIC_FILES).catch(error => {
+        console.warn('Some files failed to cache:', error);
+        // Continue even if caching fails
+        return Promise.resolve();
+      });
+    }).catch(error => {
+      console.warn('Failed to open cache:', error);
+      // Don't fail the installation
+      return Promise.resolve();
     })
   );
   self.skipWaiting();
@@ -24,11 +31,13 @@ self.addEventListener('install', (event) => {
 
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
+  console.log('Service Worker activating...');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
           if (cacheName !== STATIC_CACHE && cacheName !== API_CACHE) {
+            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
@@ -43,6 +52,11 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
+  // Skip non-GET requests
+  if (request.method !== 'GET') {
+    return;
+  }
+
   // Handle API requests
   if (url.pathname.includes('/SneakOut/')) {
     event.respondWith(handleApiRequest(request));
@@ -50,10 +64,7 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Handle static files
-  if (request.method === 'GET') {
-    event.respondWith(handleStaticRequest(request));
-    return;
-  }
+  event.respondWith(handleStaticRequest(request));
 });
 
 async function handleApiRequest(request) {
@@ -66,7 +77,9 @@ async function handleApiRequest(request) {
     // Cache successful responses
     if (networkResponse.ok) {
       const clonedResponse = networkResponse.clone();
-      cache.put(request, clonedResponse);
+      cache.put(request, clonedResponse).catch(() => {
+        // Ignore cache errors
+      });
     }
     
     return networkResponse;
@@ -92,7 +105,7 @@ async function handleStaticRequest(request) {
   const cache = await caches.open(STATIC_CACHE);
   
   try {
-    // Try cache first
+    // Try cache first for static files
     const cachedResponse = await cache.match(request);
     if (cachedResponse) {
       return cachedResponse;
@@ -102,17 +115,26 @@ async function handleStaticRequest(request) {
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
       const clonedResponse = networkResponse.clone();
-      cache.put(request, clonedResponse);
+      cache.put(request, clonedResponse).catch(() => {
+        // Ignore cache errors
+      });
     }
     
     return networkResponse;
   } catch (error) {
-    // Return offline page
+    // Return offline page for document requests
     if (request.destination === 'document') {
-      return cache.match('/index.html');
+      const offlineResponse = await cache.match('/index.html');
+      if (offlineResponse) {
+        return offlineResponse;
+      }
     }
     
-    throw error;
+    // Return a simple offline response
+    return new Response('Offline', {
+      status: 503,
+      headers: { 'Content-Type': 'text/plain' }
+    });
   }
 }
 
@@ -124,6 +146,5 @@ self.addEventListener('sync', (event) => {
 });
 
 async function doBackgroundSync() {
-  // Implement background sync logic here
   console.log('Background sync triggered');
 } 

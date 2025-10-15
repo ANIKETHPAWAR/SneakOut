@@ -14,10 +14,10 @@ const CategoryGrid = ({ selectedCategory, onCategorySelect }) => {
           <button
             key={category.name}
             onClick={() => onCategorySelect(category.name)}
-            className={`flex flex-col items-center justify-center rounded-2xl p-6 shadow hover:shadow-lg transition-all border-2 ${
+            className={`flex flex-col items-center justify-center rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border backdrop-blur-sm hover:scale-105 ${
               category.color
             } ${
-              selectedCategory === category.name ? 'ring-4 ring-purple-400' : ''
+              selectedCategory === category.name ? 'ring-4 ring-purple-400 shadow-2xl scale-105' : 'hover:border-opacity-80'
             }`}
           >
             <MapPin className={`w-8 h-8 ${category.iconColor}`} />

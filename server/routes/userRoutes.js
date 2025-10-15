@@ -6,46 +6,68 @@ const bcrypt=require('bcrypt')
 // Basic user routes
 router.post('/register',async(req,res)=>{
     try{
-        const data =req.body;
+        const data = req.body;
+        
+        // Validate required fields
+        if (!data.firstName || !data.lastName || !data.username || !data.email || !data.password) {
+            return res.status(400).json({error: 'All fields are required'});
+        }
+        
         const newUser = new User(data);
         const savedUser = await newUser.save();
         console.log('User saved!');
-        const payLoad ={
-            id:savedUser._id
+        const payLoad = {
+            id: savedUser._id
         }
         const token = generateToken(payLoad);
-        console.log("Your token is :",token);
-        res.status(200).json({savedUser,token : token})
+        console.log("Your token is :", token);
+        res.status(200).json({savedUser, token: token})
     }catch(err){
-        console.log(err);
+        console.log('Registration error:', err);
+        
+        // Handle specific MongoDB errors
+        if (err.code === 11000) {
+            const field = Object.keys(err.keyPattern)[0];
+            return res.status(400).json({error: `${field} already exists`});
+        }
+        
+        if (err.name === 'ValidationError') {
+            const errors = Object.values(err.errors).map(e => e.message);
+            return res.status(400).json({error: errors.join(', ')});
+        }
+        
         res.status(500).json({error: 'internal error'})
     }
 })
 
 router.post('/login',async(req,res)=>{
-    
-try{
-    const {username,password} = req.body;
-    
-    const user = await User.findOne({username:username});
-    
-    if(!user || !(await user.comparePassword(password))){
-        console.log('user not found');
-        return res.status(401).json({error: 'user didnt match'})
-    }
-    console.log('Authenticating user:', username);
-    const payLoad = {
-      id :user._id,
-    }
-    const token = generateToken(payLoad);
-    res.json({token})
-    console.log('Token sent for user:', username);
+    try{
+        const {username, password} = req.body;
+        
+        // Validate required fields
+        if (!username || !password) {
+            return res.status(400).json({error: 'Username and password are required'});
+        }
+        
+        const user = await User.findOne({username: username});
+        
+        if(!user || !(await user.comparePassword(password))){
+            console.log('Login failed for user:', username);
+            return res.status(401).json({error: 'Invalid credentials'})
+        }
+        
+        console.log('Authenticating user:', username);
+        const payLoad = {
+            id: user._id,
+        }
+        const token = generateToken(payLoad);
+        res.json({token, user: {id: user._id, username: user.username, email: user.email}})
+        console.log('Token sent for user:', username);
     }
     catch(err){
-    console.error(err);
-    res.status(500).json({error: 'internal server error'})
+        console.error('Login error:', err);
+        res.status(500).json({error: 'internal server error'})
     }
-    
 })
 
 router.get('/me', Auth, async (req, res) => {

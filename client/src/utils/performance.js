@@ -110,6 +110,7 @@ export const bundleOptimizer = {
   // Split large components
   async loadComponent(componentPath) {
     try {
+      // @vite-ignore
       const module = await import(componentPath);
       return module.default;
     } catch (error) {

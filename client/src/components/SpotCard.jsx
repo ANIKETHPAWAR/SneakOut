@@ -10,7 +10,7 @@ const SpotCard = ({ spot, onClick }) => {
 
   return (
     <div
-      className="bg-white/60 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 hover:border-purple-300 overflow-hidden cursor-pointer transform transition-all duration-300"
+      className="bg-gradient-to-br from-white/80 via-blue-50/60 to-indigo-100/80 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 hover:border-purple-300 hover:shadow-2xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-[1.02]"
       onClick={handleClick}
       tabIndex={0}
       role="button"

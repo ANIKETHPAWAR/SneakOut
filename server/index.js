@@ -7,11 +7,16 @@ const db = require('./db')
 const allowedOrigins = [
   'https://sneak-out.vercel.app',
   'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:5175',
   'https://www.sneakout.me'
 ];
 app.use(cors({
   origin: function(origin, callback){
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Allow all localhost ports for development
+    if (!origin || 
+        allowedOrigins.includes(origin) || 
+        origin.startsWith('http://localhost:')) {
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))

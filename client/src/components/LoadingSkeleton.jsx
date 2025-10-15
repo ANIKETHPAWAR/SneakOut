@@ -2,7 +2,7 @@ import React from 'react';
 
 // Skeleton for spot cards
 export const SpotCardSkeleton = () => (
-  <div className="bg-white rounded-2xl shadow-lg overflow-hidden animate-pulse">
+  <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden animate-pulse border border-white/40">
     <div className="h-48 bg-gradient-to-br from-gray-200 to-gray-300" />
     <div className="p-4">
       <div className="h-4 bg-gray-200 rounded mb-2 w-3/4" />
@@ -27,7 +27,7 @@ export const FeaturedSpotsSkeleton = () => (
       <div className="h-8 bg-gray-200 rounded w-32 animate-pulse" />
     </div>
     
-    <div className="relative bg-gradient-to-br from-white via-gray-50 to-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+    <div className="relative bg-gradient-to-br from-white/90 via-blue-50/80 to-indigo-100/90 backdrop-blur-sm rounded-2xl shadow-xl border border-white/40 overflow-hidden">
       <div className="px-4 sm:px-8 py-8 sm:py-12">
         <div className="flex gap-8">
           {[1, 2, 3].map((i) => (
@@ -55,7 +55,7 @@ export const CategoryGridSkeleton = () => (
 
 // Skeleton for dashboard
 export const DashboardSkeleton = () => (
-  <div className="min-h-screen bg-gray-50">
+  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
     <div className="pt-20 px-4 py-8">
       {/* Welcome section skeleton */}
       <div className="max-w-4xl mx-auto mb-12">
@@ -75,7 +75,7 @@ export const DashboardSkeleton = () => (
 // Skeleton for modal
 export const ModalSkeleton = () => (
   <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-    <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden animate-pulse">
+    <div className="bg-white/90 backdrop-blur-xl rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden animate-pulse border border-white/40">
       <div className="h-64 bg-gray-200" />
       <div className="p-6">
         <div className="h-6 bg-gray-200 rounded mb-3 w-3/4" />

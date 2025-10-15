@@ -2,14 +2,14 @@ import { MapPin } from 'lucide-react';
 
 // App categories with consistent styling
 export const CATEGORIES = [
-  { name: 'Adventure', color: 'bg-green-100 text-green-800', iconColor: 'text-green-500' },
-  { name: 'Photo', color: 'bg-blue-100 text-blue-800', iconColor: 'text-blue-500' },
-  { name: 'Food', color: 'bg-orange-100 text-orange-800', iconColor: 'text-orange-500' },
-  { name: 'Hidden', color: 'bg-purple-100 text-purple-800', iconColor: 'text-purple-500' },
-  { name: 'Cultural', color: 'bg-red-100 text-red-800', iconColor: 'text-red-500' },
-  { name: 'Nature', color: 'bg-emerald-100 text-emerald-800', iconColor: 'text-emerald-500' },
-  { name: 'Urban', color: 'bg-gray-100 text-gray-800', iconColor: 'text-gray-500' },
-  { name: 'Other', color: 'bg-slate-100 text-slate-800', iconColor: 'text-slate-500' },
+  { name: 'Adventure', color: 'bg-gradient-to-br from-green-50 to-emerald-100 text-green-800 border-green-200', iconColor: 'text-green-600' },
+  { name: 'Photo', color: 'bg-gradient-to-br from-blue-50 to-cyan-100 text-blue-800 border-blue-200', iconColor: 'text-blue-600' },
+  { name: 'Food', color: 'bg-gradient-to-br from-orange-50 to-amber-100 text-orange-800 border-orange-200', iconColor: 'text-orange-600' },
+  { name: 'Hidden', color: 'bg-gradient-to-br from-purple-50 to-violet-100 text-purple-800 border-purple-200', iconColor: 'text-purple-600' },
+  { name: 'Cultural', color: 'bg-gradient-to-br from-red-50 to-rose-100 text-red-800 border-red-200', iconColor: 'text-red-600' },
+  { name: 'Nature', color: 'bg-gradient-to-br from-emerald-50 to-green-100 text-emerald-800 border-emerald-200', iconColor: 'text-emerald-600' },
+  { name: 'Urban', color: 'bg-gradient-to-br from-gray-50 to-slate-100 text-gray-800 border-gray-200', iconColor: 'text-gray-600' },
+  { name: 'Other', color: 'bg-gradient-to-br from-slate-50 to-gray-100 text-slate-800 border-slate-200', iconColor: 'text-slate-600' },
 ];
 
 // App statistics
@@ -21,9 +21,9 @@ export const APP_STATS = {
 };
 
 // API endpoints
-export const API_BASE_URL = "https://sneakout-ssom.onrender.com";
+export const API_BASE_URL = "http://localhost:3000";
 export const API_ENDPOINTS = {
-  base: "https://sneakout-ssom.onrender.com",
+  base: "http://localhost:3000",
   user: "/SneakOut/user/me",
   spots: "/SneakOut/spots",
   featured: "/SneakOut/spots/featured/list",
