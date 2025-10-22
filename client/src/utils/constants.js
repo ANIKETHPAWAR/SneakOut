@@ -21,10 +21,8 @@ export const APP_STATS = {
 };
 
 // API endpoints
-const isDevelopment = import.meta.env.DEV;
-export const API_BASE_URL = isDevelopment 
-  ? "http://localhost:3000" 
-  : "https://sneakout-kxmb.onrender.com"; // Your actual Render URL
+// Temporarily force production URL for testing
+export const API_BASE_URL = "https://sneakout-kxmb.onrender.com";
 
 export const API_ENDPOINTS = {
   base: API_BASE_URL,
