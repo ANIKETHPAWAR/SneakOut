@@ -21,9 +21,13 @@ export const APP_STATS = {
 };
 
 // API endpoints
-export const API_BASE_URL = "http://localhost:3000";
+const isDevelopment = import.meta.env.DEV;
+export const API_BASE_URL = isDevelopment 
+  ? "http://localhost:3000" 
+  : "https://sneakout-server.onrender.com"; // Replace with your actual Render URL
+
 export const API_ENDPOINTS = {
-  base: "http://localhost:3000",
+  base: API_BASE_URL,
   user: "/SneakOut/user/me",
   spots: "/SneakOut/spots",
   featured: "/SneakOut/spots/featured/list",
