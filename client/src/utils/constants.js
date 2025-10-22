@@ -24,7 +24,7 @@ export const APP_STATS = {
 const isDevelopment = import.meta.env.DEV;
 export const API_BASE_URL = isDevelopment 
   ? "http://localhost:3000" 
-  : "https://sneakout-server.onrender.com"; // Replace with your actual Render URL
+  : "https://sneakout-kxmb.onrender.com"; // Your actual Render URL
 
 export const API_ENDPOINTS = {
   base: API_BASE_URL,

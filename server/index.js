@@ -10,7 +10,7 @@ const allowedOrigins = [
   'http://localhost:5174',
   'http://localhost:5175',
   'https://www.sneakout.me',
-  'https://sneakout-server.onrender.com' // Add your Render URL here
+  'https://sneakout-kxmb.onrender.com' // Your actual Render URL
 ];
 app.use(cors({
   origin: function(origin, callback){

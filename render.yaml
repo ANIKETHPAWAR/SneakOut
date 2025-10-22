@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: sneakout-server
+    name: sneakout-kxmb
     env: node
     plan: free
     buildCommand: cd server && npm install
@@ -9,11 +9,8 @@ services:
       - key: NODE_ENV
         value: production
       - key: MONGODB_URI
-        fromDatabase:
-          name: sneakout-db
-          property: connectionString
+        value: mongodb+srv://anikethpawar505:ZrGqAj2uxJdT4JYT@sneakout.r9axhus.mongodb.net/sneakout?retryWrites=true&w=majority&appName=SneakOut
       - key: Jwt_Secret
-        generateValue: true
+        value: your_super_secret_jwt_key_here_change_in_production_12345
       - key: PORT
         value: 10000
-
