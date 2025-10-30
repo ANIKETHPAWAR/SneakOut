@@ -117,7 +117,7 @@ export const apiService = {
   
   // Auth endpoints
   login: (credentials) => apiRequest('POST', '/SneakOut/user/login', credentials, {}, false),
-  register: (userData) => apiRequest('POST', '/SneakOut/user/register', userData, {}, false),
+  register: (userData) => apiRequest('POST', '/SneakOut/user/signup', userData, {}, false),
   
   // Clear cache
   clearCache: () => {
