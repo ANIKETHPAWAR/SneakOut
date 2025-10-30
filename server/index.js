@@ -4,6 +4,7 @@ const express =require('express');
 const app =express();
 
 const db = require('./db')
+const { User } = require('./models/user')
 const allowedOrigins = [
   'https://sneak-out.vercel.app',
   'http://localhost:5173',
@@ -37,6 +38,30 @@ app.get('/',(req,res)=>{
 })
 app.use('/SneakOut/',mainroute)
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+
+async function ensureAdminUser() {
+  try {
+    const username = 'Aniketh@admin';
+    let admin = await User.findOne({ username });
+    if (!admin) {
+      admin = new User({
+        firstName: 'Aniketh',
+        lastName: 'Admin',
+        username: username,
+        email: 'admin@sneakout.me',
+        password: 'Aniketh@admin'
+      });
+      await admin.save();
+      console.log('Admin user created: Aniketh@admin / Aniketh@admin');
+    } else {
+      console.log('Admin user already exists');
+    }
+  } catch (e) {
+    console.error('Failed ensuring admin user:', e.message);
+  }
+}
+
+app.listen(PORT, async () => {
   console.log(`running on ${PORT}`);
+  await ensureAdminUser();
 });
