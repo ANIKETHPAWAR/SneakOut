@@ -21,8 +21,11 @@ export const APP_STATS = {
 };
 
 // API endpoints
-// Temporarily force production URL for testing
-export const API_BASE_URL = "https://sneakout-kxmb.onrender.com";
+// Read from env; fall back to production Render URL
+export const API_BASE_URL =
+  (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE_URL)
+    ? import.meta.env.VITE_API_BASE_URL
+    : "https://sneakout-kxmb.onrender.com";
 
 export const API_ENDPOINTS = {
   base: API_BASE_URL,
