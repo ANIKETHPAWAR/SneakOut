@@ -8,35 +8,34 @@ import FeaturedSpots from '../components/FeaturedSpots';
 import SpotCard from '../components/SpotCard';
 import SpotDetailModal from '../components/SpotDetailModal';
 import { DashboardSkeleton } from '../components/LoadingSkeleton';
+import Testimonials from '../components/Testimonials';
 
 const Dashboard = () => {
   const { user, loading: authLoading } = useAuth();
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const [categorySpots, setCategorySpots] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedSpot, setSelectedSpot] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if (!selectedCategory) {
-      setCategorySpots([]);
-      return;
-    }
-
-    const fetchCategorySpots = async () => {
+    const fetchSpots = async () => {
       setLoading(true);
       try {
-        const response = await apiService.getSpots({ category: selectedCategory.toLowerCase() });
+        const isAll = !selectedCategory || selectedCategory === 'All';
+        const response = isAll
+          ? await apiService.getSpots()
+          : await apiService.getSpots({ category: selectedCategory.toLowerCase() });
         setCategorySpots(response.spots || []);
       } catch (error) {
-        console.error('Failed to fetch category spots:', error);
+        console.error('Failed to fetch spots:', error);
         setCategorySpots([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCategorySpots();
+    fetchSpots();
   }, [selectedCategory]);
 
   const handleCategorySelect = (category) => {
@@ -59,7 +58,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-[var(--color-neutral-100)]">
       <Navbar />
       
       <main className="pt-20 px-4 py-8">
@@ -98,15 +97,18 @@ const Dashboard = () => {
         )}
 
         {/* Featured Spots */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 id="featured-spots" className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Featured Hidden Gems</h2>
-            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4">
+            <h2 id="featured-spots" className="text-3xl sm:text-4xl font-bold text-heading mb-2">Featured Hidden Gems</h2>
+            <p className="text-base sm:text-lg text-subtle max-w-2xl mx-auto px-4">
               Recently discovered spots that are trending in the community. Explore these amazing locations and find your next adventure.
             </p>
           </div>
           <FeaturedSpots />
         </div>
+
+          {/* Testimonials */}
+          <Testimonials />
       </main>
     </div>
   );

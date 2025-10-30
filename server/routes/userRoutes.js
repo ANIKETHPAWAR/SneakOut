@@ -4,7 +4,8 @@ const {User} = require('../models/user')
 const {Auth,generateToken}=require('../middlewares/auth')
 const bcrypt=require('bcrypt')
 // Basic user routes
-router.post('/register',async(req,res)=>{
+// Shared register handler
+const handleRegister = async (req, res) => {
     try{
         const data = req.body;
         
@@ -38,7 +39,11 @@ router.post('/register',async(req,res)=>{
         
         res.status(500).json({error: 'internal error'})
     }
-})
+}
+
+// Allow both /register and /signup to avoid ad-blockers blocking "register"
+router.post('/register', handleRegister)
+router.post('/signup', handleRegister)
 
 router.post('/login',async(req,res)=>{
     try{
