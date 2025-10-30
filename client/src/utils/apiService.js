@@ -11,7 +11,7 @@ const pendingRequests = new Map();
 // Create axios instance with default config
 const apiClient = axios.create({
   baseURL: API_ENDPOINTS.base,
-  timeout: 10000, // 10 second timeout
+  timeout: 30000, // allow Render cold start (up to ~30s)
   headers: {
     'Content-Type': 'application/json',
   },
